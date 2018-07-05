@@ -7,6 +7,7 @@ let counter = -1
 const printBoard = () => {
 
   if (winner()){
+
   console.log(winner(),'- Won!')}
   // console.log('counter: ',counter)
   const {board} = game.getState()

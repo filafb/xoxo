@@ -1,34 +1,37 @@
 import {Map} from 'immutable'
 
-export default function reducer(state = {turn:'X',board:Map()}, action) {
-  // TODO
-    // console.log('board: ',state.board)
-    // console.log('row: ',state.board['0'])
-    // console.log('row: ',state.board['0']['0'])
-    // if(state.board.getIn(['0','0'])){
+const MOVE = 'MOVE'
 
-    // }
+function turnReducer(turn='X', action){
+  if(action.type === MOVE)
+    return turn === 'X' ? 'O' : 'X'
+  return turn
+}
 
 
-  switch (action.type){
-    // console.log(''action.move)
+function boardReducer(board= Map(), action){
+  if(action.type === MOVE)
+    return board.setIn(action.coords, action.turn)
+  return board
+}
 
-    case 'move':
-      let nextPlayer = ''
-      if(action.turn==='X'){nextPlayer='O'}
-      else {nextPlayer = 'X'}
-    // console.log(state.board.getIn([0,0]))
-      return {
-        turn: nextPlayer,
-        board: state.board.setIn(action.coords,action.turn)}
-    default:
-      return state
+// function checkWinner(winner=undefined, action){
+//   if(action.type === 'FINALRESULT'){
+//     return {winner: action.winner}
+//   }
+// }
+
+
+export default function reducer(state = {}, action) {
+  return {
+    board : boardReducer(state.board, action),
+    turn: turnReducer(state.turn, action),
   }
 }
 
 export function move(turn,coords){
   return {
-    type:'move',
+    type:'MOVE',
     turn: turn,
     coords:coords
   }
